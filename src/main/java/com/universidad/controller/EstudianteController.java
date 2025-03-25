@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*; // Importa las anotaciones de 
 import java.util.List; // Importa la interfaz List para manejar listas
 
 @RestController // Anotación que indica que esta clase es un controlador REST de Spring
-@RequestMapping("/api/estudiantes") // Define la ruta base para las solicitudes HTTP a este controlador
+@RequestMapping("/api") // Define la ruta base para las solicitudes HTTP a este controlador
 public class EstudianteController { // Define la clase EstudianteController
 
     private final IEstudianteService estudianteService; // Declara una variable final para el servicio de estudiantes
@@ -20,7 +20,7 @@ public class EstudianteController { // Define la clase EstudianteController
         this.estudianteService = estudianteService; // Asigna el servicio de estudiantes a la variable de instancia
     }
 
-    @GetMapping // Anotación que indica que este método maneja solicitudes GET
+    @GetMapping("/estudiantes") // Anotación que indica que este método maneja solicitudes GET
     public ResponseEntity<List<EstudianteDTO>> obtenerTodosLosEstudiantes() { // Método para obtener una lista de todos los EstudianteDTO
         List<EstudianteDTO> estudiantes = estudianteService.obtenerTodosLosEstudiantes(); // Llama al servicio para obtener todos los estudiantes
         return ResponseEntity.ok(estudiantes); // Retorna una respuesta HTTP 200 OK con la lista de estudiantes
