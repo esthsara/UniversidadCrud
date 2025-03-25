@@ -1,15 +1,11 @@
-package com.universidad.service;
+package com.universidad.service; // Define el paquete al que pertenece esta interfaz
 
-import com.universidad.dto.EstudianteDTO;
+import com.universidad.dto.EstudianteDTO; // Importa la clase EstudianteDTO del paquete dto
 
-import java.util.List;
+import java.util.List; // Importa la interfaz List para manejar listas
 
-public interface IEstudianteService {
+public interface IEstudianteService { // Define la interfaz IEstudianteService
     
-    EstudianteDTO createStudent(EstudianteDTO estudianteDTO);
-    
-    List<EstudianteDTO> getAllStudents();
-    
-    void deleteStudent(Long id);
+    List<EstudianteDTO> obtenerTodosLosEstudiantes(); // Método para obtener una lista de todos los EstudianteDTO
     
 }
