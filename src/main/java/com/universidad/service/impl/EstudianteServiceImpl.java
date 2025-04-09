@@ -5,37 +5,25 @@ import com.universidad.model.Estudiante; // Importa la clase Estudiante del paqu
 import com.universidad.repository.EstudianteRepository; // Importa la clase EstudianteRepository del paquete repository
 import com.universidad.service.IEstudianteService; // Importa la interfaz IEstudianteService del paquete service
 
-import jakarta.annotation.PostConstruct; // Importa la anotación PostConstruct de Jakarta
 import org.springframework.beans.factory.annotation.Autowired; // Importa la anotación Autowired de Spring
 import org.springframework.stereotype.Service; // Importa la anotación Service de Spring
 
-import java.util.ArrayList; // Importa la clase ArrayList para manejar listas
 import java.util.List; // Importa la interfaz List para manejar listas
+import java.util.stream.Collectors; // Importa la clase Collectors para manejar colecciones
 
 @Service // Anotación que indica que esta clase es un servicio de Spring
 public class EstudianteServiceImpl implements IEstudianteService { // Define la clase EstudianteServiceImpl que implementa la interfaz IEstudianteService
 
-    private final EstudianteRepository estudianteRepository; // Declara una variable final para el repositorio de estudiantes
-
-    @Autowired // Anotación que indica que el constructor debe ser usado para inyección de dependencias
-    public EstudianteServiceImpl(EstudianteRepository estudianteRepository) { // Constructor que recibe el repositorio de estudiantes
-        this.estudianteRepository = estudianteRepository; // Asigna el repositorio de estudiantes a la variable de instancia
-    }
+    @Autowired
+    private EstudianteRepository estudianteRepository; // Inyección de dependencias del repositorio de estudiantes
     
-    @PostConstruct // Anotación que indica que este método debe ejecutarse después de la construcción del bean
-    public void init() { // Método para inicializar datos de ejemplo
-        estudianteRepository.init(); // Llama al método init del repositorio de estudiantes
-    }
 
-    @Override // Anotación que indica que este método sobrescribe un método de la interfaz
-    public List<EstudianteDTO> obtenerTodosLosEstudiantes() { // Método para obtener una lista de todos los EstudianteDTO
-        List<Estudiante> estudiantes = estudianteRepository.findAll(); // Obtiene todos los estudiantes del repositorio
-        List<EstudianteDTO> estudiantesDTO = new ArrayList<>(); // Crea una nueva lista para los EstudianteDTO
-        
-        for (Estudiante estudiante : estudiantes) { // Itera sobre la lista de estudiantes
-            estudiantesDTO.add(convertToDTO(estudiante)); // Convierte cada estudiante a EstudianteDTO y lo agrega a la lista
-        }
-        return estudiantesDTO; // Retorna la lista de EstudianteDTO
+    @Override
+    public List<EstudianteDTO> obtenerTodosLosEstudiantes() {
+        // Obtiene todos los estudiantes y los convierte a DTO
+        return estudianteRepository.findAll().stream() // Obtiene todos los estudiantes de la base de datos
+                .map(this::convertToDTO) // Convierte cada Estudiante a EstudianteDTO
+                .collect(Collectors.toList()); // Recoge los resultados en una lista
     }
 
     // Método auxiliar para convertir entidad a DTO

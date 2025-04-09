@@ -8,4 +8,5 @@ public interface IEstudianteService { // Define la interfaz IEstudianteService
     
     List<EstudianteDTO> obtenerTodosLosEstudiantes(); // Método para obtener una lista de todos los EstudianteDTO
     
+    
 }
