@@ -5,9 +5,11 @@ import com.universidad.model.Materia;
 import com.universidad.service.IEstudianteService; // Importa la interfaz IEstudianteService del paquete service
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired; // Importa la anotación Autowired de Spring
 import org.springframework.http.ResponseEntity; // Importa la clase ResponseEntity de Spring para manejar respuestas HTTP
+import org.springframework.validation.annotation.Validated;
 import org.springframework.http.HttpStatus; // Importa la clase HttpStatus de Spring para manejar códigos de estado HTTP
 import org.springframework.web.bind.annotation.*; // Importa las anotaciones de Spring para controladores web
 
@@ -15,6 +17,7 @@ import java.util.List; // Importa la interfaz List para manejar listas
 
 @RestController // Anotación que indica que esta clase es un controlador REST de Spring
 @RequestMapping("/api/estudiantes") // Define la ruta base para las solicitudes HTTP a este controlador
+@Validated // Anotación que indica que la validación de los parámetros de entrada está habilitada
 public class EstudianteController { // Define la clase EstudianteController
 
     private final IEstudianteService estudianteService; // Declara una variable final para el servicio de estudiantes
@@ -45,7 +48,7 @@ public class EstudianteController { // Define la clase EstudianteController
     @PostMapping // Anotación que indica que este método maneja solicitudes POST
     @Transactional // Anotación que indica que este método debe ejecutarse dentro de una transacción
     @ResponseStatus(HttpStatus.CREATED) // Anotación que indica que la respuesta HTTP debe tener un estado 201 Created
-    public ResponseEntity<EstudianteDTO> crearEstudiante(@RequestBody EstudianteDTO estudianteDTO) { // Método para crear un nuevo estudiante
+    public ResponseEntity<EstudianteDTO> crearEstudiante(@Valid @RequestBody EstudianteDTO estudianteDTO) { // Método para crear un nuevo estudiante
         EstudianteDTO nuevoEstudiante = estudianteService.crearEstudiante(estudianteDTO); // Llama al servicio para crear el estudiante
         return ResponseEntity.status(201).body(nuevoEstudiante); // Retorna una respuesta HTTP 201 Created con el nuevo estudiante
     }

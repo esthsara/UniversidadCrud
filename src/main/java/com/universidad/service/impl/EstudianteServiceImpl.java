@@ -5,12 +5,12 @@ import com.universidad.model.Estudiante; // Importa la clase Estudiante del paqu
 import com.universidad.model.Materia;
 import com.universidad.repository.EstudianteRepository; // Importa la clase EstudianteRepository del paquete repository
 import com.universidad.service.IEstudianteService; // Importa la interfaz IEstudianteService del paquete service
+import com.universidad.validation.EstudianteValidator; // Importa la clase EstudianteValidator del paquete validation
 
 import org.springframework.beans.factory.annotation.Autowired; // Importa la anotación Autowired de Spring
 import org.springframework.stereotype.Service; // Importa la anotación Service de Spring
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List; // Importa la interfaz List para manejar listas
 import java.util.stream.Collectors; // Importa la clase Collectors para manejar colecciones
 
@@ -19,7 +19,14 @@ public class EstudianteServiceImpl implements IEstudianteService { // Define la 
 
     @Autowired
     private EstudianteRepository estudianteRepository; // Inyección de dependencias del repositorio de estudiantes
+
+    @Autowired // Inyección de dependencias del validador de estudiantes
+    private EstudianteValidator estudianteValidator; // Declara una variable para el validador de estudiantes
     
+    public EstudianteServiceImpl(EstudianteRepository estudianteRepository, EstudianteValidator estudianteValidator) {
+        this.estudianteRepository = estudianteRepository;
+        this.estudianteValidator = estudianteValidator;
+    }
 
     @Override
     public List<EstudianteDTO> obtenerTodosLosEstudiantes() {
@@ -56,6 +63,9 @@ public class EstudianteServiceImpl implements IEstudianteService { // Define la 
 
     @Override
     public EstudianteDTO crearEstudiante(EstudianteDTO estudianteDTO) { // Método para crear un nuevo estudiante
+        
+        estudianteValidator.validacionCompletaEstudiante(estudianteDTO); // Valida el estudiante usando el validador
+
         // Convierte el DTO a entidad, guarda el estudiante y lo convierte de nuevo a DTO
         Estudiante estudiante = convertToEntity(estudianteDTO); // Convierte el EstudianteDTO a Estudiante
         Estudiante estudianteGuardado = estudianteRepository.save(estudiante); // Guarda el estudiante en la base de datos

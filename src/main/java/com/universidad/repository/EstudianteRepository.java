@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository; // Importa la anotación Repos
 public interface EstudianteRepository extends JpaRepository<Estudiante, Long> {
     // No es necesario implementar métodos básicos como findAll, ya que JpaRepository los proporciona automáticamente.
 
+    Boolean existsByEmail(String email); // Método para verificar si existe un estudiante por su correo electrónico
+    Boolean existsByNumeroInscripcion(String numeroInscripcion); // Método para verificar si existe un estudiante por su número de inscripción
+
     // Método para encontrar un estudiante por su número de inscripción
     Estudiante findByNumeroInscripcion(String numeroInscripcion); 
 
