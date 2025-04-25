@@ -9,9 +9,7 @@ Este repositorio contiene la base del proyecto Universitario utilizando **Spring
 Completar las operaciones requeridas sobre el Proyecto.
 
 ---
-
-## 👥 Grupos y ramas asignadas
-
+Grupos y ramas asignadas
 Grupo	Ramaogiana	Integrantes
 01	grupo-01-springb	[Enrique Rafael Fernández Chiri, Nohemy Ruth Mamani Apaza, Samantha Rousse Gironda Mina, Josué Misael López Huanca, Luz Belén Chávez Patzi, Oscar Joel Choque Flores, Cristhian Pablo Álvarez Guarachi]
 02	grupo-02-springb	[Maya Cádiz, Leandro Chávez, Masiel Chirinos, Sergio Luque, Jordy Miranda, Saúl Sánchez, Elizabeth Suzaño]
@@ -29,6 +27,7 @@ Grupo	Ramaogiana	Integrantes
 14	grupo-14-springb	[Gutiérrez Challapa Daniel Rodrigo, Hidalgo Colque Ariana Daniela,Huanca Tito José Manuel,Mamani Mamani Mirko Sony,Quecaño Uruña Erika,Quiñajo Berrios Melina Viana]
 15	grupo-15-springb	[Julio Picavia Saravia, Carlos Callisaya Rosas, Iver Mamani, Amiel Natanieli Méndez Vargas, Adriana Valeria Fernández Flores, Luz Edely Aruquipa Ururi]
 16	Grupo-16-springb	[Miranda Aguirre Carlos Manuel, Tapia Cortez Genesis Jalid, Lucas Calderon, David Mamani, Rudy Ibarra, Julio Cesar Ticona, José Alejandro Fernández Sánchez ]
+
 
 
 ---
