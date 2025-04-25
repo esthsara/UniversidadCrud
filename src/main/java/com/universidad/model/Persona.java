@@ -2,13 +2,19 @@ package com.universidad.model;
 
 import java.time.LocalDate;
 
+import org.hibernate.validator.constraints.Length;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-@Data
+@Getter // Genera un getter para todos los campos de la clase
+@Setter // Genera un setter para todos los campos de la clase
+//@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
@@ -24,12 +30,19 @@ public abstract class Persona {
     private Long id;
 
     @Column(nullable = false, length = 50) // Columna no nula con longitud máxima de 50 caracteres
+    // El nombre de la persona no puede ser nulo y tiene una longitud máxima de 50 caracteres
+    @Basic(optional = false) // Columna no nula
+    @Length(min = 3, max = 50) // Validación de longitud
     private String nombre;
 
     @Column(nullable = false, length = 50) // Columna no nula con longitud máxima de 50 caracteres
+    @Length(min = 3, max = 50) // Validación de longitud
+    // El apellido de la persona no puede ser nulo y tiene una longitud máxima de 50 caracteres
+    @Basic(optional = false) // Columna no nula
     private String apellido;
 
     @Column(nullable = false, unique = true) // Columna no nula y con valor único
+    @Basic(optional = false) // Columna no nula
     private String email;
 
     @Column(name = "fecha_nacimiento", nullable = false) // Columna no nula con nombre personalizado

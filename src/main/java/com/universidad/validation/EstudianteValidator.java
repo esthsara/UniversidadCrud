@@ -19,7 +19,7 @@ public class EstudianteValidator {
 
     public void validaEmailUnico(String email) {
         if (estudianteRepository.existsByEmail(email)) {
-            throw new BusinessException("Ya existe un usuario con este email");
+            throw new IllegalArgumentException("Ya existe un usuario con este email");
         }
     }
 
@@ -28,13 +28,29 @@ public class EstudianteValidator {
         List<String> dominiosBloqueados = Arrays.asList("dominiobloqueado.com", "spam.com");
 
         if (dominiosBloqueados.contains(dominio)) {
-            throw new BusinessException("El dominio de email no está permitido");
+            throw new IllegalArgumentException("El dominio de email no está permitido");
+        }
+    }
+
+    // Validación manual para nombre vacío o nulo
+    public void validaNombreEstudiante(String nombre){
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre no puede estar vacío o nulo.");
+        }
+    }
+  
+    // Validación manual para apellido vacío o nulo
+    public void validaApellidoEstudiante(String apellido){
+        if (apellido == null || apellido.trim().isEmpty()) {
+            throw new IllegalArgumentException("El apellido es obligatorio y no puede estar vacío.");
         }
     }
 
     public void validacionCompletaEstudiante(EstudianteDTO estudiante) {
         validaEmailUnico(estudiante.getEmail());
         validaDominioEmail(estudiante.getEmail());
+        validaNombreEstudiante(estudiante.getNombre());
+        validaApellidoEstudiante(estudiante.getApellido());
         // Otras validaciones...
     }
 

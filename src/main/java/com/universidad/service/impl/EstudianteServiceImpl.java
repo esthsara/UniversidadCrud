@@ -7,6 +7,7 @@ import com.universidad.repository.EstudianteRepository; // Importa la clase Estu
 import com.universidad.service.IEstudianteService; // Importa la interfaz IEstudianteService del paquete service
 import com.universidad.validation.EstudianteValidator; // Importa la clase EstudianteValidator del paquete validation
 
+
 import org.springframework.beans.factory.annotation.Autowired; // Importa la anotación Autowired de Spring
 import org.springframework.stereotype.Service; // Importa la anotación Service de Spring
 
@@ -27,6 +28,10 @@ public class EstudianteServiceImpl implements IEstudianteService { // Define la 
         this.estudianteRepository = estudianteRepository;
         this.estudianteValidator = estudianteValidator;
     }
+
+    /*public EstudianteServiceImpl(EstudianteRepository estudianteRepository) {
+            this.estudianteRepository = estudianteRepository;
+    }*/
 
     @Override
     public List<EstudianteDTO> obtenerTodosLosEstudiantes() {

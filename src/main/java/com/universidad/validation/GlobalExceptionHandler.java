@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
@@ -18,22 +19,24 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler { // Clase que maneja excepciones globalmente en la aplicación
+public class GlobalExceptionHandler {
 
     // 1. Maneja errores de validación de Bean Validation (@Valid)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiError> handleValidationExceptions(MethodArgumentNotValidException ex) {
         // Extrae todos los errores de validación y crea un mapa campo -> mensaje
-        Map<String, String> errores = ex.getBindingResult()
-                .getAllErrors()
-                .stream()
-                .filter(error -> error instanceof FieldError)
-                .map(error -> (FieldError) error)
+        Map<String, String> errores = ex.getBindingResult() // Obtiene el resultado de la validación
+                .getAllErrors() // Obtiene todos los errores (puede incluir errores de objeto)
+                .stream() // Convierte a un stream para procesar los errores
+                .filter(error -> error instanceof FieldError) // Filtra solo los errores de campo
+                // Convierte a FieldError para acceder a los métodos específicos de campo
+                .map(error -> (FieldError) error) // Convierte a FieldError para acceder a los métodos específicos de campo
+                // Crea un mapa campo -> mensaje de error
                 .collect(Collectors.toMap(
                     FieldError::getField,
                     FieldError::getDefaultMessage,
                     // Si hay campos duplicados, mantén el último error
-                    (error1, error2) -> error2
+                    (error1, error2) -> error2 // Maneja conflictos de clave (campo duplicado) manteniendo el último error
                 ));
         
         ApiError apiError = new ApiError(
@@ -150,6 +153,59 @@ public class GlobalExceptionHandler { // Clase que maneja excepciones globalment
         ex.printStackTrace();
         
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiError);
+    }
+
+    // 8. Maneja errores de deserialización o JSON mal formado
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiError> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
+        ex.printStackTrace(); // Log completo para depuración
+        String mensajeUsuario = "Error en el formato de los datos enviados.";
+        String detalles = ex.getMostSpecificCause().getMessage();
+        // Personaliza el mensaje si es por un valor null en una fecha obligatoria
+        if (detalles != null && detalles.contains("Cannot deserialize value of type") && detalles.contains("java.time.LocalDate")) {
+            if (detalles.contains("from Null value")) {
+                mensajeUsuario = "El campo de fecha obligatoria no puede ser nulo y debe tener formato yyyy-MM-dd.";
+            } else {
+                mensajeUsuario = "El campo de fecha debe tener formato yyyy-MM-dd.";
+            }
+        }
+        ApiError apiError = new ApiError(
+            HttpStatus.BAD_REQUEST.value(),
+            mensajeUsuario,
+            detalles,
+            LocalDateTime.now()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+    }
+
+    // 9. Maneja violaciones de integridad de datos (ej: clave duplicada)
+    @org.springframework.web.bind.annotation.ExceptionHandler(org.springframework.dao.DataIntegrityViolationException.class)
+    public ResponseEntity<ApiError> handleDataIntegrityViolation(org.springframework.dao.DataIntegrityViolationException ex) {
+        String mensaje = "Violación de restricción de datos. Puede que algún valor ya exista o no cumpla una restricción única.";
+        String detalles = ex.getMostSpecificCause() != null ? ex.getMostSpecificCause().getMessage() : ex.getMessage();
+        // Personaliza el mensaje si es por email duplicado
+        if (detalles != null && detalles.contains("duplicate key value") && detalles.contains("email")) {
+            mensaje = "El email ya está registrado. Debe ingresar un email único.";
+        }
+        ApiError apiError = new ApiError(
+            HttpStatus.CONFLICT.value(),
+            mensaje,
+            detalles,
+            LocalDateTime.now()
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(apiError);
+    }
+
+    // 10. Maneja IllegalArgumentException para validaciones manuales
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiError> handleIllegalArgumentException(IllegalArgumentException ex) {
+        ApiError apiError = new ApiError(
+            HttpStatus.BAD_REQUEST.value(),
+            "Error de validación en los datos de entrada",
+            ex.getMessage(),
+            LocalDateTime.now()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
     }
 
     public class RecursoNoDisponibleException extends RuntimeException {

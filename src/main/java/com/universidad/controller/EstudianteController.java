@@ -17,7 +17,7 @@ import java.util.List; // Importa la interfaz List para manejar listas
 
 @RestController // Anotación que indica que esta clase es un controlador REST de Spring
 @RequestMapping("/api/estudiantes") // Define la ruta base para las solicitudes HTTP a este controlador
-@Validated // Anotación que indica que la validación de los parámetros de entrada está habilitada
+@Validated
 public class EstudianteController { // Define la clase EstudianteController
 
     private final IEstudianteService estudianteService; // Declara una variable final para el servicio de estudiantes
