@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.io.Serializable;
 
 import jakarta.validation.constraints.*;
 
@@ -13,7 +14,7 @@ import jakarta.validation.constraints.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EstudianteDTO {
+public class EstudianteDTO implements Serializable {
     private Long id;
     
     @NotBlank(message = "El nombre es obligatorio")

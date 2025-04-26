@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity; // Importa la clase ResponseEnti
 import org.springframework.validation.annotation.Validated;
 import org.springframework.http.HttpStatus; // Importa la clase HttpStatus de Spring para manejar códigos de estado HTTP
 import org.springframework.web.bind.annotation.*; // Importa las anotaciones de Spring para controladores web
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List; // Importa la interfaz List para manejar listas
 
@@ -21,6 +23,7 @@ import java.util.List; // Importa la interfaz List para manejar listas
 public class EstudianteController { // Define la clase EstudianteController
 
     private final IEstudianteService estudianteService; // Declara una variable final para el servicio de estudiantes
+    private static final Logger logger = LoggerFactory.getLogger(EstudianteController.class);
 
     @Autowired // Anotación que indica que el constructor debe ser usado para inyección de dependencias
     public EstudianteController(IEstudianteService estudianteService) { // Constructor que recibe el servicio de estudiantes
@@ -29,13 +32,21 @@ public class EstudianteController { // Define la clase EstudianteController
 
     @GetMapping // Anotación que indica que este método maneja solicitudes GET
     public ResponseEntity<List<EstudianteDTO>> obtenerTodosLosEstudiantes() { // Método para obtener una lista de todos los EstudianteDTO
+        long inicio = System.currentTimeMillis();
+        logger.info("[ESTUDIANTE] Inicio obtenerTodosLosEstudiantes: {}", inicio);
         List<EstudianteDTO> estudiantes = estudianteService.obtenerTodosLosEstudiantes(); // Llama al servicio para obtener todos los estudiantes
+        long fin = System.currentTimeMillis();
+        logger.info("[ESTUDIANTE] Fin obtenerTodosLosEstudiantes: {} (Duracion: {} ms)", fin, (fin-inicio));
         return ResponseEntity.ok(estudiantes); // Retorna una respuesta HTTP 200 OK con la lista de estudiantes
     }
 
     @GetMapping("/inscripcion/{numeroInscripcion}") // Anotación que indica que este método maneja solicitudes GET con un parámetro de ruta
     public ResponseEntity<EstudianteDTO> obtenerEstudiantePorNumeroInscripcion(@PathVariable String numeroInscripcion) { // Método para obtener un estudiante por su número de inscripción
+        long inicio = System.currentTimeMillis();
+        logger.info("[ESTUDIANTE] Inicio obtenerEstudiantePorNumeroInscripcion: {}", inicio);
         EstudianteDTO estudiante = estudianteService.obtenerEstudiantePorNumeroInscripcion(numeroInscripcion); // Llama al servicio para obtener el estudiante
+        long fin = System.currentTimeMillis();
+        logger.info("[ESTUDIANTE] Fin obtenerEstudiantePorNumeroInscripcion: {} (Duracion: {} ms)", fin, (fin-inicio));
         return ResponseEntity.ok(estudiante); // Retorna una respuesta HTTP 200 OK con el estudiante encontrado
     }
 

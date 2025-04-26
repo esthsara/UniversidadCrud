@@ -68,6 +68,8 @@ public class Estudiante extends Persona { // Define la clase Estudiante que exti
             inverseJoinColumns = @JoinColumn(name = "id_materia")  // Columna que referencia a la materia 
     )
     private List<Materia> materias; // Lista de materias asociadas al estudiante
-     
+
+    /*@Version
+    private Long version; // Campo para manejar la versión de la entidad, útil para el control de concurrencia*/
 
 }
