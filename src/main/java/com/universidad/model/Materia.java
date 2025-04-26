@@ -5,9 +5,13 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+//@Data
+@Getter // Genera un getter para todos los campos de la clase
+@Setter // Genera un setter para todos los campos de la clase
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
