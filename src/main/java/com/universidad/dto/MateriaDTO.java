@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class MateriaDTO implements Serializable {
+    
     private Long id;
     private String nombreMateria;
     private String codigoUnico;

@@ -8,8 +8,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.io.Serializable;
 
-//@Data
 @Getter // Genera un getter para todos los campos de la clase
 @Setter // Genera un setter para todos los campos de la clase
 @NoArgsConstructor
@@ -18,8 +18,10 @@ import lombok.Setter;
 @Entity
 @Table(name = "materia") // Nombre de la tabla en la base de datos
 // Esta clase representa una materia en el sistema de gestión de estudiantes
-public class Materia {
+public class Materia implements Serializable {
     
+    private static final long serialVersionUID = 1L;
+
     @Id // Anotación que indica que este campo es la clave primaria
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY) // Generación automática del ID
     @Column(name = "id_materia") // Nombre de la columna en la base de datos
