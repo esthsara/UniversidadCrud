@@ -40,7 +40,7 @@ public class Materia implements Serializable {
     // El número de créditos de la materia no puede ser nulo
     private Integer creditos;
 
-    @Version
+    @Version // Anotación para manejar la versión de la entidad
     private Long version; // Campo para manejar la versión de la entidad, útil para el control de concurrencia
 
 }

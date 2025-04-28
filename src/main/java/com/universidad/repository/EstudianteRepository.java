@@ -20,7 +20,9 @@ public interface EstudianteRepository extends JpaRepository<Estudiante, Long> {
     // Método para encontrar un estudiante por su estado
     Estudiante findByEstado(String estado); // Método para encontrar un estudiante por su estado
 
-    /*@Lock(LockModeType.PESSIMISTIC_WRITE)
-    Optional<Estudiante> findByIdForUpdate(Long id);*/
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    Optional<Estudiante> findById(Long id); // Método para encontrar un estudiante por su ID con bloqueo pesimista
+    // Este método se utiliza para evitar condiciones de carrera al actualizar el estudiante
+    
 
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service; // Importa la anotación Service 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List; // Importa la interfaz List para manejar listas
@@ -116,6 +117,17 @@ public class EstudianteServiceImpl implements IEstudianteService { // Define la 
 
         Estudiante estudianteInactivo = estudianteRepository.save(estudianteExistente); // Guarda el estudiante inactivo en la base de datos
         return convertToDTO(estudianteInactivo); // Convierte el Estudiante inactivo a EstudianteDTO y lo retorna
+    }
+
+    @Transactional
+    public Estudiante obtenerEstudianteConBloqueo(Long id) {
+        Estudiante est = estudianteRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Estudiante no encontrado"));
+        // Simula un tiempo de procesamiento prolongado
+        // Esto es solo para demostrar el bloqueo, en un caso real no se debería hacer esto
+            try { Thread.sleep(15000); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+        // Simula un tiempo de procesamiento prolongado
+        return est;
     }
 
     // Método auxiliar para convertir entidad a DTO

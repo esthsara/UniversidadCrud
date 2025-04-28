@@ -2,6 +2,7 @@ package com.universidad.controller; // Define el paquete al que pertenece esta c
 
 import com.universidad.dto.EstudianteDTO; // Importa la clase EstudianteDTO del paquete dto
 import com.universidad.model.Materia;
+import com.universidad.model.Estudiante;
 import com.universidad.service.IEstudianteService; // Importa la interfaz IEstudianteService del paquete service
 
 import jakarta.transaction.Transactional;
@@ -54,6 +55,12 @@ public class EstudianteController { // Define la clase EstudianteController
     public ResponseEntity<List<Materia>> obtenerMateriasDeEstudiante(@PathVariable("id") Long estudianteId) {
         List<Materia> materias = estudianteService.obtenerMateriasDeEstudiante(estudianteId);
         return ResponseEntity.ok(materias);
+    }
+
+    @GetMapping("/{id}/lock")
+    public ResponseEntity<Estudiante> getEstudianteConBloqueo(@PathVariable Long id) {
+        Estudiante estudiante = estudianteService.obtenerEstudianteConBloqueo(id);
+        return ResponseEntity.ok(estudiante);
     }
 
     @PostMapping // Anotación que indica que este método maneja solicitudes POST
