@@ -42,7 +42,8 @@ public class EstudianteController { // Define la clase EstudianteController
     }
 
     @GetMapping("/inscripcion/{numeroInscripcion}") // Anotación que indica que este método maneja solicitudes GET con un parámetro de ruta
-    public ResponseEntity<EstudianteDTO> obtenerEstudiantePorNumeroInscripcion(@PathVariable String numeroInscripcion) { // Método para obtener un estudiante por su número de inscripción
+    public ResponseEntity<EstudianteDTO> obtenerEstudiantePorNumeroInscripcion(
+        @PathVariable String numeroInscripcion) { // Método para obtener un estudiante por su número de inscripción
         long inicio = System.currentTimeMillis();
         logger.info("[ESTUDIANTE] Inicio obtenerEstudiantePorNumeroInscripcion: {}", inicio);
         EstudianteDTO estudiante = estudianteService.obtenerEstudiantePorNumeroInscripcion(numeroInscripcion); // Llama al servicio para obtener el estudiante
@@ -52,13 +53,15 @@ public class EstudianteController { // Define la clase EstudianteController
     }
 
     @GetMapping("/{id}/materias")
-    public ResponseEntity<List<Materia>> obtenerMateriasDeEstudiante(@PathVariable("id") Long estudianteId) {
+    public ResponseEntity<List<Materia>> obtenerMateriasDeEstudiante(
+        @PathVariable("id") Long estudianteId) {
         List<Materia> materias = estudianteService.obtenerMateriasDeEstudiante(estudianteId);
         return ResponseEntity.ok(materias);
     }
 
     @GetMapping("/{id}/lock")
-    public ResponseEntity<Estudiante> getEstudianteConBloqueo(@PathVariable Long id) {
+    public ResponseEntity<Estudiante> getEstudianteConBloqueo(
+        @PathVariable Long id) {
         Estudiante estudiante = estudianteService.obtenerEstudianteConBloqueo(id);
         return ResponseEntity.ok(estudiante);
     }
@@ -74,7 +77,9 @@ public class EstudianteController { // Define la clase EstudianteController
     @PutMapping("/{id}") // Anotación que indica que este método maneja solicitudes PUT con un parámetro de ruta
     @Transactional // Anotación que indica que este método debe ejecutarse dentro de una transacción
     @ResponseStatus(HttpStatus.OK) // Anotación que indica que la respuesta HTTP debe tener un estado 200 OK    
-    public ResponseEntity<EstudianteDTO> actualizarEstudiante(@PathVariable Long id, @RequestBody EstudianteDTO estudianteDTO) { // Método para actualizar un estudiante existente
+    public ResponseEntity<EstudianteDTO> actualizarEstudiante(
+        @PathVariable Long id,
+        @RequestBody EstudianteDTO estudianteDTO) { // Método para actualizar un estudiante existente
         EstudianteDTO estudianteActualizado = estudianteService.actualizarEstudiante(id, estudianteDTO); // Llama al servicio para actualizar el estudiante
         return ResponseEntity.ok(estudianteActualizado); // Retorna una respuesta HTTP 200 OK con el estudiante actualizado
     }
@@ -82,7 +87,9 @@ public class EstudianteController { // Define la clase EstudianteController
     @PutMapping("/{id}/baja") // Anotación que indica que este método maneja solicitudes PUT para dar de baja un estudiante
     @Transactional // Anotación que indica que este método debe ejecutarse dentro de una transacción
     @ResponseStatus(HttpStatus.OK) // Anotación que indica que la respuesta HTTP debe tener un estado 200 OK
-    public ResponseEntity<EstudianteDTO> eliminarEstudiante(@PathVariable Long id, @RequestBody EstudianteDTO estudianteDTO) { // Método para eliminar un estudiante
+    public ResponseEntity<EstudianteDTO> eliminarEstudiante(
+        @PathVariable Long id,
+        @RequestBody EstudianteDTO estudianteDTO) { // Método para eliminar un estudiante
         EstudianteDTO estudianteEliminado = estudianteService.eliminarEstudiante(id, estudianteDTO); // Llama al servicio para eliminar el estudiante
         return ResponseEntity.ok(estudianteEliminado); // Retorna una respuesta HTTP 200 OK con el estudiante eliminado
     }
