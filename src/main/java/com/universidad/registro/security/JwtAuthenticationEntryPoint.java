@@ -8,9 +8,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
@@ -19,14 +16,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationEntryPoint.class);
-
-    /// Este método se invoca cuando un usuario no autenticado intenta acceder a un recurso protegido
-    /// y se lanza una excepción de autenticación.    
-    public void commence(HttpServletRequest request, HttpServletResponse response, 
-                         AuthenticationException authException) throws IOException, ServletException { 
-        logger.error("Error de autenticación: {}", authException.getMessage());
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: No autorizado");
-    }
 
     // Este método se invoca cuando un usuario no autenticado intenta acceder a un recurso protegido
     // y se lanza una excepción de autenticación.
