@@ -41,7 +41,7 @@ RegistroUniversitario/
 - **Tipo:** PostgreSQL  
 - **URL:** `jdbc:postgresql://localhost:5432/universidad2`  
 - **Usuario:** `postgres`  
-- **Contraseña:** `25032003`  
+- **Contraseña:** `contraseña`  
 - **Driver:** `org.postgresql.Driver`
 
 ### JPA & Hibernate
