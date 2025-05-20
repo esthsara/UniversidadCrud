@@ -52,6 +52,14 @@ public class Materia implements Serializable {
     private Long version; // Campo para manejar la versión de la entidad, útil para el control de concurrencia
 
     /**
+     * Relación con Docente (PRACTICA)
+     */
+    @ManyToOne
+    @JoinColumn(name = "id_docente", nullable = false)
+    private Docente docente;
+
+    
+    /**
      * Lista de materias que son prerequisitos para esta materia.
      */
     @ManyToMany
